@@ -80,7 +80,7 @@ def autoscale_y(ax, margin=0.1):
     """
     Rescales the y-axis based on data visible in the current xlim.
 
-    Usage:
+    Example usage:
         ax.set_xlim(2, 4)
         autoscale_y(ax)
     """
@@ -108,10 +108,11 @@ def autoscale_y(ax, margin=0.1):
 
 def autoscale_x(ax, margin=0.1):
     """
-    Rescales the x-axis based on data visible in the current ylim.
+    Rescales the x-axis based on data visible in the current xlim and ylim.
 
-    Usage:
-        ax.set_ylim(2, 4)
+    Example usage:
+        ax.set_xlim(2, 4)
+        autoscale_y(ax)
         autoscale_x(ax)
     """
     lines = ax.get_lines()
@@ -121,9 +122,12 @@ def autoscale_x(ax, margin=0.1):
         x_data = line.get_xdata()
         y_data = line.get_ydata()
         ylim = ax.get_ylim()
+        xlim = ax.get_xlim()
 
-        # Find x-values within current y-limits
-        mask = (y_data >= ylim[0]) & (y_data <= ylim[1])
+        # Find x-values within current x and y-limits
+        ymask = (y_data >= ylim[0]) & (y_data <= ylim[1])
+        xmask = (x_data >= xlim[0]) & (x_data <= xlim[1])
+        mask = ymask & xmask
         visible_x = x_data[mask]
 
         if len(visible_x) > 0:
