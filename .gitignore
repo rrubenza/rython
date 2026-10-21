@@ -1,0 +1,3 @@
+build/
+src/rython.egg-info/
+src/rython/__pycache__/
